@@ -6,9 +6,9 @@ import { autoUpdater } from 'electron-updater';
 
 import { getServerList } from './app/services/servers';
 
-const { Clusters } = require('./app/models/clusters');
-const { Clusters: Cluster2 } = require('./app/models/cluster2');
-const PingWrapper = require('./app/main-process/ping');
+
+const { Servers } = require('./app/models/Servers');
+
 const Files = require('./app/main-process/util');
 const log = require('./app/main-process/log');
 
@@ -30,10 +30,9 @@ function loadMainFiles() {
 async function getServersFile() {
   win.webContents.send('spinner', [true]);
   const serverListResponse = await getServerList();
-  const clusters = new Clusters(serverListResponse.data);
-  clusters.convert();
-  const ping = new PingWrapper(clusters, win);
-  ping.execute();
+  const servers = new Servers(serverListResponse.data);
+  const status = await servers.ping();
+
 }
 
 function getUpdate() {
