@@ -20,40 +20,32 @@ ipcMain.on('request-block-firewall', (event, ipList) => {
   firewall.exec(ipList);
 });
 
-ipcMain.on('request-reset-firewall', (event) => {
+ipcMain.on('request-reset-firewall', async (event) => {
   const win = BrowserWindow.fromWebContents(event.sender);
   win.webContents.send('spinner', [true]);
   win.webContents.send('reset-worldmap-iplist');
 
+  const serverList = await getServerList();
+  const clusters = new Clusters(serverList.data);
+  clusters.convert();
 
-  getServerList().then((response) => {
-    const clusters = new Clusters(response.data);
-    clusters.convert();
+  if (process.platform === 'linux') {
+    new Firewall(win, clusters.clustersId, clusters).reset();
+  }
 
-    if (process.platform === 'linux') {
-      new Firewall(win, clusters.clustersId, clusters).reset();
-    }
-
-    if (process.platform === 'win32') {
-      new Firewall(win).reset();
-    }
-  }).catch((error) => {
-    console.log(error);
-  });
+  if (process.platform === 'win32') {
+    new Firewall(win).reset();
+  }
 });
 
-function ping(event) {
+async function ping(event) {
   const win = BrowserWindow.fromWebContents(event.sender);
   win.webContents.send('spinner', [true]);
   win.webContents.send('reset-worldmap-iplist');
+  const serverList = await getServerList();
+  const clusters = new Clusters(serverList.data);
+  clusters.convert();
 
-  getServerList().then((response) => {
-    const clusters = new Clusters(response.data);
-    clusters.convert();
-
-    const ping = new PingWrapper(clusters, win);
-    ping.execute();
-  }).catch((error) => {
-    console.log(error);
-  });
+  const pingInstance = new PingWrapper(clusters, win);
+  pingInstance.execute();
 }

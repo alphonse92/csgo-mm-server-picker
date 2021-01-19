@@ -86,17 +86,12 @@ function _execBash(command, win) {
   );
 }
 
-function _ping(win) {
-
-  getServerList().then((response) => {
-    const clusters = new Clusters(response.data);
-    clusters.convert();
-
-    const ping = new PingWrapper(clusters, win);
-    ping.execute();
-  }).catch((error) => {
-    log.error(error.stack);
-  });
+async function _ping(win) {
+  const serverList = await getServerList();
+  const clusters = new Clusters(serverList.data);
+  clusters.convert();
+  const ping = new PingWrapper(clusters, win);
+  ping.execute();
 }
 
 module.exports = Firewall;

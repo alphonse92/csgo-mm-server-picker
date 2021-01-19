@@ -29,18 +29,11 @@ function loadMainFiles() {
 
 async function getServersFile() {
   win.webContents.send('spinner', [true]);
-
-  getServerList().then((response) => {
-    const clusters = new Clusters(response.data);
-    clusters.convert();
-
-    console.log(new Cluster2(response.data).regions['na-east'].addresses)
-
-    const ping = new PingWrapper(clusters, win);
-    ping.execute();
-  }).catch((error) => {
-    log.error(error.stack);
-  });
+  const serverListResponse = await getServerList();
+  const clusters = new Clusters(serverListResponse.data);
+  clusters.convert();
+  const ping = new PingWrapper(clusters, win);
+  ping.execute();
 }
 
 function getUpdate() {
