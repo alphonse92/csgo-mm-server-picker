@@ -1,21 +1,53 @@
-const { app, BrowserWindow } = require('electron');
-const path = require('path');
-const glob = require('glob');
-const ServersService = require('./app/services/servers');
+import { app, BrowserWindow } from 'electron';
+import path from 'path';
+import glob from 'glob';
+import logE from 'electron-log';
+import { autoUpdater } from 'electron-updater';
+
+import { getServerList } from './app/services/servers';
+
 const { Clusters } = require('./app/models/clusters');
 const PingWrapper = require('./app/main-process/ping');
-const { autoUpdater } = require('electron-updater');
-const logE = require('electron-log');
 const Files = require('./app/main-process/util');
 const log = require('./app/main-process/log');
-const AliveService = require('./app/services/alive');
-
-
 
 let win;
 
-function initialize() {
+function loadMainFiles() {
+  try {
+    new Files().create();
+    const files = glob.sync(path.join(__dirname, './app/main-process/*.js'));
 
+    files.forEach((file) => {
+      require(file);
+    });
+  } catch (error) {
+    log.error(error.stack);
+  }
+}
+
+async function getServersFile() {
+
+  win.webContents.send('spinner', [true]);
+
+  getServerList().then((response) => {
+    const clusters = new Clusters(response.data);
+    clusters.convert();
+
+    const ping = new PingWrapper(clusters, win);
+    ping.execute();
+  }).catch((error) => {
+    log.error(error.stack);
+  });
+}
+
+function getUpdate() {
+  logE.transports.file.level = 'debug';
+  autoUpdater.logger = logE;
+  autoUpdater.checkForUpdatesAndNotify();
+}
+
+function initialize() {
   loadMainFiles();
 
   function createWindow() {
@@ -51,50 +83,6 @@ function initialize() {
       createWindow();
     }
   });
-}
-
-async function getServersFile() {
-
-  win.webContents.send('spinner', [true]);
-
-  const request = async () => {
-    return new ServersService().getServersList();
-  }
-
-  request().then((response) => {
-    const clusters = new Clusters(response.data);
-    clusters.convert();
-
-    const ping = new PingWrapper(clusters, win);
-    ping.execute();
-  }).catch((error) => {
-    log.error(error.stack);
-  });
-}
-
-function loadMainFiles() {
-  try {
-    new Files().create();
-    const files = glob.sync(path.join(__dirname, './app/main-process/*.js'));
-
-    files.forEach((file) => { require(file) });
-  } catch (error) {
-    log.error(error.stack);
-  }
-}
-
-function getUpdate() {
-  logE.transports.file.level = "debug";
-  autoUpdater.logger = logE;
-  autoUpdater.checkForUpdatesAndNotify();
-}
-
-function imAlive() {
-  try {
-    new AliveService().postImalive(app.getVersion());
-  } catch (error) {
-    log.error(error.stack);
-  }
 }
 
 initialize();

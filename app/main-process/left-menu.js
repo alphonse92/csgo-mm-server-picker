@@ -1,3 +1,5 @@
+import { getServerList } from '../services/servers';
+
 const PingWrapper = require('./ping');
 const ServersService = require('../services/servers');
 const { Clusters } = require('../models/clusters');
@@ -23,11 +25,8 @@ ipcMain.on('request-reset-firewall', (event) => {
   win.webContents.send('spinner', [true]);
   win.webContents.send('reset-worldmap-iplist');
 
-  const request = async () => {
-    return new ServersService().getServersList();
-  }
 
-  request().then((response) => {
+  getServerList().then((response) => {
     const clusters = new Clusters(response.data);
     clusters.convert();
 
@@ -48,11 +47,7 @@ function ping(event) {
   win.webContents.send('spinner', [true]);
   win.webContents.send('reset-worldmap-iplist');
 
-  const request = async () => {
-    return new ServersService().getServersList();
-  }
-
-  request().then((response) => {
+  getServerList().then((response) => {
     const clusters = new Clusters(response.data);
     clusters.convert();
 

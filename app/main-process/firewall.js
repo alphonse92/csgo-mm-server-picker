@@ -1,3 +1,5 @@
+import { getServerList } from '../services/servers';
+
 const { app } = require('electron');
 const sudo = require('sudo-prompt');
 const { Clusters } = require('../models/clusters');
@@ -85,11 +87,8 @@ function _execBash(command, win) {
 }
 
 function _ping(win) {
-  const request = async () => {
-    return new ServersService().getServersList();
-  }
 
-  request().then((response) => {
+  getServerList().then((response) => {
     const clusters = new Clusters(response.data);
     clusters.convert();
 
