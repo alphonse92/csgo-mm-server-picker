@@ -64,7 +64,6 @@ PingWrapper.prototype._updateClusterStatus = function (host, time, alive) {
 
             if (!checkAlive && alive) {
               checkAlive = true;
-              checkTime = time;
             }
 
             this._clusters.pops[id].status.isAlive = alive;

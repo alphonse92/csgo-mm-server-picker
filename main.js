@@ -10,12 +10,13 @@ const Files = require('./app/main-process/util');
 const log = require('./app/main-process/log');
 const AliveService = require('./app/services/alive');
 
+
+
 let win;
 
 function initialize() {
 
   loadMainFiles();
-  imAlive();
 
   function createWindow() {
     win = new BrowserWindow({ show: false, width: 1200, height: 475, webPreferences: { nodeIntegration: true }, resizable: false });

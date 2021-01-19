@@ -1,7 +1,6 @@
 // Modified ping-lite library made by ben-bradley.
-
-var spawn = require('child_process').spawn,
-  events = require('events'),
+import { spawn } from 'child_process'
+var events = require('events'),
   fs = require('fs'),
   WIN = /^win/.test(process.platform),
   LIN = /^linux/.test(process.platform),
