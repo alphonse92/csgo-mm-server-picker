@@ -4,7 +4,7 @@
   "description": "Server picker for CS:GO matchmaking",
   "main": "main.js",
   "scripts": {
-    "start": "electron index.js",
+    "start": "electron index.js -s",
     "pack": "build --dir",
     "dist": "electron-builder",
     "publish": "./node_modules/.bin/electron-builder electron-builder --publish always"

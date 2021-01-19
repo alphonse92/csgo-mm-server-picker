@@ -1,10 +1,11 @@
 // Modified ping-lite library made by ben-bradley.
-import { spawn } from 'child_process'
-var events = require('events'),
-  fs = require('fs'),
-  WIN = /^win/.test(process.platform),
-  LIN = /^linux/.test(process.platform),
-  MAC = /^darwin/.test(process.platform);
+import { spawn } from 'child_process';
+import events from 'events';
+import fs from 'fs';
+
+const WIN = /^win/.test(process.platform);
+const LIN = /^linux/.test(process.platform);
+const MAC = /^darwin/.test(process.platform);
 
 module.exports = Ping;
 

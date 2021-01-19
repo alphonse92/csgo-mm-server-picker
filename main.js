@@ -7,6 +7,7 @@ import { autoUpdater } from 'electron-updater';
 import { getServerList } from './app/services/servers';
 
 const { Clusters } = require('./app/models/clusters');
+const { Clusters: Cluster2 } = require('./app/models/cluster2');
 const PingWrapper = require('./app/main-process/ping');
 const Files = require('./app/main-process/util');
 const log = require('./app/main-process/log');
@@ -27,12 +28,13 @@ function loadMainFiles() {
 }
 
 async function getServersFile() {
-
   win.webContents.send('spinner', [true]);
 
   getServerList().then((response) => {
     const clusters = new Clusters(response.data);
     clusters.convert();
+
+    console.log(new Cluster2(response.data).regions['na-east'].addresses)
 
     const ping = new PingWrapper(clusters, win);
     ping.execute();
@@ -52,6 +54,7 @@ function initialize() {
 
   function createWindow() {
     win = new BrowserWindow({ show: false, width: 1200, height: 475, webPreferences: { nodeIntegration: true }, resizable: false });
+    win.webContents.openDevTools();
     win.loadFile('./index.html');
 
     win.setMenuBarVisibility(false);
