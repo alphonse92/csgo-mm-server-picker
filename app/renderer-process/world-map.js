@@ -20,17 +20,16 @@ ipcRenderer.on('request-update-ping', (event, arg) => {
 
 });
 
-// Mets à jour la liste des IP au niveau de l'IHM au fur et à mesure des pings
+// Lets store in memory the list of the ip results
 ipcRenderer.on('update-ip-list', (event, arg) => {
-  let host = {};
-
-  host.id = arg[0];
-  host.ip = arg[1];
-  host.cityName = arg[2];
-  host.continentId = arg[3];
-  host.time = arg[4];
-  host.alive = arg[5];
-
+  const host = {
+    id: arg[0],
+    ip: arg[1],
+    cityName: arg[2],
+    continentId: arg[3],
+    time: arg[4],
+    alive: arg[5],
+  };
   ipList.push(host);
 });
 

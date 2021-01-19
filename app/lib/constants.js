@@ -1,3 +1,10 @@
+export const SERVER_STATUS = {
+  NOT_CHECKED: 'Not checked yet',
+  AVAILABLE: 'Available',
+  UNAVAILABLE: 'Unvailable',
+  UNSTABLE: 'Unstable',
+}
+
 export const DEF_CITY_NAME = 'City name unavailable';
 export const DEF_REGION_NAME = 'Region name unavailable';
 

@@ -44,6 +44,8 @@
     "electron-log": "^3.0.6",
     "electron-updater": "^4.3.1",
     "glob": "^7.1.4",
+    "lodash": "^4.17.20",
+    "mathjs": "^9.0.0",
     "ping": "^0.4.0",
     "simple-node-logger": "^18.12.24",
     "sudo-prompt": "^8.2.5"

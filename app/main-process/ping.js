@@ -24,6 +24,7 @@ PingWrapper.prototype.execute = function () {
       const hosts = this._clusters.pops[id].relayAddresses;
 
       hosts.forEach(host => {
+        console.log(hosts)
         var ping = new Ping(host);
 
         ping.send((err, time) => {

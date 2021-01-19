@@ -22,14 +22,46 @@ export class Servers {
         const region = this.clusters[regionName] || new Cluster({
           name: regionName,
         });
-        region.addCity(new ClusterCity({ ...pop, id: cityId }));
+        region.addCity(new ClusterCity({ ...pop, id: cityId, regionId: region.name }));
         this.clusters[regionName] = region;
       });
   }
 
-  async ping() {
-    for (const cluster of this.clusters) {
-      
+  ping({
+    onClusterPing,
+    onCityPing,
+  } = {}) {
+    return Promise.all(
+      Object
+        .keys(this.clusters)
+        .map((regionName) => {
+          const cluster = this.clusters[regionName];
+          return cluster.ping({ onClusterPing, onCityPing });
+        }));
+  }
+
+  async awaitingPing({
+    onClusterPing,
+    onCityPing,
+  } = {}) {
+    const regionNames = Object.keys(this.clusters);
+    for (let i = 0; i < regionNames.length; i++) {
+      const regionName = regionNames[i]
+      const cluster = this.clusters[regionName];
+      await cluster.ping({ onClusterPing, onCityPing });
     }
   }
+
+  async detachedPing({
+    onClusterPing,
+    onCityPing,
+  } = {}) {
+    const regionNames = Object.keys(this.clusters);
+    for (let i = 0; i < regionNames.length; i++) {
+      const regionName = regionNames[i];
+      const cluster = this.clusters[regionName];
+      await cluster.ping({ onClusterPing, onCityPing });
+    }
+  }
+
 }
