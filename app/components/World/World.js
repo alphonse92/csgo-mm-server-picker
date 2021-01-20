@@ -31,6 +31,7 @@ ipcRenderer.on('update-ip-list', (event, arg) => {
     alive: arg[5],
   };
   ipList.push(host);
+  console.log(host)
 });
 
 ipcRenderer.on('spinner', (event, arg) => {

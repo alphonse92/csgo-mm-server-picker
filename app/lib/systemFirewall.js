@@ -1,9 +1,9 @@
 
 import { Firewalls } from './firewalls';
 
-export class Firewall {
+export class SystemFirewall {
 
-  exec(ipList) {
+  block(ipList) {
     const sysFirewall = Firewalls[process.platform];
     sysFirewall.block(ipList);
   }

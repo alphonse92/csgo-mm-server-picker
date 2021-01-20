@@ -41,7 +41,7 @@ function initialize() {
 
     win.once('ready-to-show', () => {
       win.show();
-      serverController.retrieveServerData();
+      // serverController.retrieveServerData();
       win.webContents.send('version', [app.getVersion()]);
     });
   }

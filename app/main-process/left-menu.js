@@ -1,6 +1,6 @@
 import { ipcMain, BrowserWindow } from 'electron'
 
-import { Firewall } from '../lib/firewalls';
+import { SystemFirewall } from '../lib/systemFirewall';
 import { ServerController } from '../controllers/Server';
 
 ipcMain.on('request-ping', (event) => {
@@ -10,13 +10,13 @@ ipcMain.on('request-ping', (event) => {
 });
 
 ipcMain.on('request-block-firewall', (event, ipList) => {
-  const firewall = new Firewall();
+  const firewall = new SystemFirewall();
   firewall.block(ipList);
 });
 
 ipcMain.on('request-reset-firewall', async (
   // event
 ) => {
-  const firewall = new Firewall();
+  const firewall = new SystemFirewall();
   firewall.reset();
 });

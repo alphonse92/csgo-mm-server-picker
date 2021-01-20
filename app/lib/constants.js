@@ -1,3 +1,4 @@
+export const APP_NAME = 'csgo-matchmacking-picker';
 export const SERVER_STATUS = {
   NOT_CHECKED: 'Not checked yet',
   AVAILABLE: 'Available',
