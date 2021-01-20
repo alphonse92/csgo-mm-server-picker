@@ -1,6 +1,9 @@
 import { Servers } from '../models/Servers';
 import { getServerList } from '../services/servers';
 
+/**
+ * Server Controller connects the back with the front
+ */
 export class ServerController {
   constructor(BrowserWindow) {
     this.BrowserWindow = BrowserWindow;

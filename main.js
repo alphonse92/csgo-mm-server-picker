@@ -8,11 +8,13 @@ import log from './app/main-process/log';
 
 let win;
 
+const closeApp = () => app.quit();
+
+
 function loadMainFiles() {
   try {
     new Files().create();
     const files = glob.sync(path.join(__dirname, './app/main-process/*.js'));
-
     files.forEach((file) => {
       require(file);
     });
@@ -22,10 +24,10 @@ function loadMainFiles() {
 }
 
 function initialize() {
+  app.allowRendererProcessReuse = true;
   loadMainFiles();
 
   function createWindow() {
-
     win = new BrowserWindow({ show: false, width: 1200, height: 475, webPreferences: { nodeIntegration: true }, resizable: false });
     win.webContents.openDevTools();
     win.loadFile('./index.html');
@@ -44,16 +46,8 @@ function initialize() {
     });
   }
 
-  app.allowRendererProcessReuse = true;
-
   app.on('ready', createWindow);
-
-  app.on('window-all-closed', () => {
-    if (process.platform !== 'darwin') {
-      app.quit();
-    }
-  });
-
+  app.on('window-all-closed', closeApp);
   app.on('activate', () => {
     if (win === null) {
       createWindow();
