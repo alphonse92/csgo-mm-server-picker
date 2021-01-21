@@ -28,11 +28,9 @@ export class ClusterCity {
         pingList = [...pingList, ...responsePing];
       }
       this.cityStatus.setData(pingList);
-      onCityPing(this);
+      await onCityPing(this);
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-
   }
-
 }

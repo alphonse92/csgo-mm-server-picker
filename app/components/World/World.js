@@ -21,17 +21,11 @@ ipcRenderer.on('request-update-ping', (event, arg) => {
 });
 
 // Lets store in memory the list of the ip results
-ipcRenderer.on('update-ip-list', (event, arg) => {
-  const host = {
-    id: arg[0],
-    ip: arg[1],
-    cityName: arg[2],
-    continentId: arg[3],
-    time: arg[4],
-    alive: arg[5],
-  };
-  ipList.push(host);
-  console.log(host)
+ipcRenderer.on('update-ip-list', async (event, arg) => {
+  const json = arg[0];
+  const hosts = JSON.parse(json);
+  ipList = hosts;
+  console.log(ipList)
 });
 
 ipcRenderer.on('spinner', (event, arg) => {

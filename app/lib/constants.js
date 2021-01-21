@@ -1,4 +1,5 @@
-export const APP_NAME = 'csgo-matchmacking-picker';
+export const APP_NAME = 'csgomatchmackingpicker';
+export const STORE_FILENAME = `${APP_NAME}.settings.json`;
 export const SERVER_STATUS = {
   NOT_CHECKED: 'Not checked yet',
   AVAILABLE: 'Available',

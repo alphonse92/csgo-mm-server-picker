@@ -42,6 +42,7 @@
   "dependencies": {
     "axios": "^0.21.1",
     "electron-log": "^3.0.6",
+    "electron-settings": "^4.0.2",
     "electron-updater": "^4.3.1",
     "glob": "^7.1.4",
     "lodash": "^4.17.20",
@@ -109,7 +110,7 @@
     },
     "rules": {
       "global-require": "off",
-      "no-console": "error",
+      "no-console": "off",
       "no-continue": "off",
       "no-underscore-dangle": "off",
       "import/no-dynamic-require": "off",

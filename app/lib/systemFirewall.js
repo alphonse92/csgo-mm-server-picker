@@ -5,12 +5,12 @@ export class SystemFirewall {
 
   block(ipList) {
     const sysFirewall = Firewalls[process.platform];
-    sysFirewall.block(ipList);
+    return sysFirewall.block(ipList);
   }
 
   reset(ipList) {
     const sysFirewall = Firewalls[process.platform];
-    sysFirewall.reset(ipList);
+    return sysFirewall.reset(ipList);
   }
 
 }

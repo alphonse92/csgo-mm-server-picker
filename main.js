@@ -27,8 +27,8 @@ function initialize() {
   app.allowRendererProcessReuse = true;
   loadMainFiles();
 
-  function createWindow() {
-    win = new BrowserWindow({ show: false, width: 1200, height: 475, webPreferences: { nodeIntegration: true }, resizable: false });
+  async function createWindow() {
+    win = new BrowserWindow({ show: false, width: 1200, height: 475, webPreferences: { nodeIntegration: true, enableRemoteModule: true }, resizable: false });
     win.webContents.openDevTools();
     win.loadFile('./index.html');
     win.setMenuBarVisibility(false);
@@ -39,9 +39,9 @@ function initialize() {
       win = null;
     });
 
-    win.once('ready-to-show', () => {
+    win.once('ready-to-show', async () => {
       win.show();
-      // serverController.retrieveServerData();
+      await serverController.retrieveServerData({ cache: true });
       win.webContents.send('version', [app.getVersion()]);
     });
   }
