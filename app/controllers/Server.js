@@ -1,7 +1,6 @@
 import { Servers } from '../models/Servers';
 import { getServerList } from '../services/servers';
-import { AppStore } from '../store';
-import { Host } from './Host';
+import { Host } from '../models/Host';
 
 /**
  * Server Controller connects the back with the front
@@ -11,8 +10,8 @@ export class ServerController {
     this.BrowserWindow = BrowserWindow;
   }
 
-  async retrieveServerData({ cache = false }) {
-    const hostsInStore = Object.values(await Host.getHosts());
+  async retrieveServerData({ cache = false, cluster }) {
+    const hostsInStore = Object.values(await Host.getHosts(cluster));
     const hosts = cache ? hostsInStore : [];
     const thereAreHosts = hosts.length;
 
@@ -21,11 +20,14 @@ export class ServerController {
       return;
     }
 
-    const hostsMap = {}
-
+    const hostsMap = {};
     this.BrowserWindow.webContents.send('spinner', [true]);
     const serverListResponse = await getServerList();
-    const servers = new Servers(serverListResponse.data);
+    const servers = new Servers(serverListResponse.data, cluster);
+
+    const clusterInstance = servers.clusters[cluster];
+    await clusterInstance.save();
+
     const onCityPing = async (clusterCity) => {
       const {
         id,
@@ -42,6 +44,7 @@ export class ServerController {
         const ip = addresses[i];
         const host = new Host({ id, ip, cityName, continentId, time, alive });
         const hostInfo = await host.save();
+        console.log(hostInfo);
         hostsMap[hostInfo.id] = hostInfo;
       }
     };

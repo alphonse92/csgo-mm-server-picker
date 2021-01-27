@@ -4,7 +4,7 @@ import { app } from 'electron';
 import { BaseStore } from './base';
 import { STORE_FILENAME } from '../lib/constants';
 
-export class SettingsStore extends BaseStore {
+export class HeadlessStore extends BaseStore {
   constructor(initialValues) {
     super(initialValues);
     this.store = settings;
@@ -13,9 +13,11 @@ export class SettingsStore extends BaseStore {
       fileName: STORE_FILENAME,
       numSpaces: 2,
       prettify: true,
-      dir: this.getFilePath(),
-    };
+      dir: app.getPath('userData'),
+    }
     settings.configure(conf);
+
+    console.log(conf)
 
     let currentSettings;
     try {
@@ -37,10 +39,6 @@ export class SettingsStore extends BaseStore {
 
   getRoot() {
     return this.store.get('root');
-  }
-
-  getFilePath() {
-    return app.getPath('userData');
   }
 
 }

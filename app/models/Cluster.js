@@ -1,3 +1,4 @@
+import { getStore } from '../store';
 
 /**
  * Represents a set of servers for a region
@@ -5,6 +6,7 @@
 export class Cluster {
 
   constructor({ name, cities = [] }) {
+    this.id = name;
     this.name = name;
     this.cities = cities;
   }
@@ -20,7 +22,7 @@ export class Cluster {
   async ping({
     onClusterPing = () => undefined,
     onCityPing = () => undefined,
-  }) {
+  } = {}) {
     try {
       for (let i = 0; i < this.cities.length; i++) {
         const city = this.cities[i];
@@ -35,6 +37,11 @@ export class Cluster {
   bestTime() {
     const times = this.cities.map(({ cityStatus }) => cityStatus.min);
     return Math.min(...times);
+  }
+
+  async save() {
+    const path = `root.servers.clusters.${this.id}`;
+    await getStore().set(path, {});
   }
 
 }

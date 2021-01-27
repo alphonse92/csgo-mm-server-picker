@@ -40,10 +40,14 @@
     "eslint-plugin-react": "^6.3.0"
   },
   "dependencies": {
+    "args": "^5.0.1",
     "axios": "^0.21.1",
+    "chalk": "^4.1.0",
+    "clear": "^0.1.0",
     "electron-log": "^3.0.6",
     "electron-settings": "^4.0.2",
     "electron-updater": "^4.3.1",
+    "figlet": "^1.5.0",
     "glob": "^7.1.4",
     "lodash": "^4.17.20",
     "mathjs": "^9.0.0",
@@ -94,6 +98,10 @@
     }
   },
   "eslintConfig": {
+    "parserOptions": {
+      "sourceType": "module",
+      "allowImportExportEverywhere": true
+    },
     "extends": "airbnb",
     "globals": {
       "__DEV__": true

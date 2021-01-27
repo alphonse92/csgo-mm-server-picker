@@ -38,7 +38,7 @@ export class ClusterCityStatus {
 
     const sum = times.reduce((acc, current) => acc + current, 0);
     const mean = sum / length;
-    return mean.toFixed(0);
+    return Number(mean.toFixed(0));
   }
   get stddev() {
     const times = this.times;

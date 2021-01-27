@@ -11,6 +11,7 @@ export class Servers {
    */
   constructor(NetworkDatagramData) {
     this.clusters = {};
+    this.hosts = {};
     this.clustersId = [];
     this._data = NetworkDatagramData;
 
@@ -22,7 +23,11 @@ export class Servers {
         const region = this.clusters[regionName] || new Cluster({
           name: regionName,
         });
-        region.addCity(new ClusterCity({ ...pop, id: cityId, regionId: region.name }));
+        const clusterCity = new ClusterCity({ ...pop, id: cityId, regionId: region.name });
+
+        region.addCity(clusterCity);
+
+        this.hosts[clusterCity.id] = clusterCity;
         this.clusters[regionName] = region;
       });
   }
@@ -46,7 +51,7 @@ export class Servers {
   } = {}) {
     const regionNames = Object.keys(this.clusters);
     for (let i = 0; i < regionNames.length; i++) {
-      const regionName = regionNames[i]
+      const regionName = regionNames[i];
       const cluster = this.clusters[regionName];
       await cluster.ping({ onClusterPing, onCityPing });
     }

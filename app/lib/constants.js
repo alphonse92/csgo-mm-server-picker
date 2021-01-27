@@ -1,4 +1,5 @@
 export const APP_NAME = 'csgomatchmackingpicker';
+export const PUBLIC_APP_NAME = 'CS:GO MM PICKER';
 export const STORE_FILENAME = `${APP_NAME}.settings.json`;
 export const SERVER_STATUS = {
   NOT_CHECKED: 'Not checked yet',
@@ -7,8 +8,8 @@ export const SERVER_STATUS = {
   UNSTABLE: 'Unstable',
 }
 
-export const DEF_CITY_NAME = 'City name unavailable';
-export const DEF_REGION_NAME = 'Region name unavailable';
+export const DEF_CITY_NAME = 'no-name';
+export const DEF_REGION_NAME = 'no-name';
 
 export const CITIES = {
   auw2: 'Oregon',

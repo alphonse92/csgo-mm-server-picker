@@ -8,4 +8,7 @@ export class BaseStore {
   getRoot() {
     throw 'This method (BaseStore.getRoot) is not implemented yet';
   }
+  getFilePath() {
+    throw 'This method (BaseStore.getFilePath) is not implemented yet';
+  }
 }
