@@ -1,4 +1,10 @@
 import {
+  block,
+  blockAll,
+  allow,
+  allowAll
+} from './actions/firewall';
+import {
   listHosts,
   listRegions,
   describe,
@@ -42,4 +48,26 @@ export const OPTIONS = {
     description: 'Ping to region',
     action: ping,
   },
+  // firewall commands
+  BLOCK: {
+    name: 'block',
+    description: 'Block ips of a region or hosts',
+    action: block,
+  },
+  BLOCK_ALL: {
+    name: 'block-all',
+    description: 'Block all cs:go ips',
+    action: blockAll,
+  },
+  ALLOW: {
+    name: 'allow',
+    description: 'Allow ips of a region or hosts',
+    action: allow,
+  },
+  ALLOW_ALL: {
+    name: 'allow-all',
+    description: 'Allow all cs:go ips',
+    action: allowAll,
+  },
+
 };

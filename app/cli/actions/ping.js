@@ -22,4 +22,4 @@ export const ping = async (_name, sub, opts) => {
   const orderedPingstatus = _orderBy(pingStatus, ['mean', 'stdev'], ['asc', 'asc']);
 
   console.table(orderedPingstatus);
-}
+};

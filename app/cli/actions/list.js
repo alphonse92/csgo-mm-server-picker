@@ -38,6 +38,7 @@ export const describe = async (_name, sub, opts) => {
   else if (listAllRegions) return console.table(Object.values(servers.clusters).map(({ id }) => ({ id })));
   else if (host.length) return console.table(Object.values(_pick(servers.hosts, host)).map(({ id, name }) => ({ id, name })));
   else if (region.length) return console.table(Object.values(_pick(servers.clusters, region)).map(({ id }) => ({ id })));
+  return null;
 };
 
 export const listIp = async (_name, sub, opts) => {

@@ -1,2 +1,5 @@
 require('@babel/register');
-require('./main');
+
+const { run } = require('./main');
+
+run();

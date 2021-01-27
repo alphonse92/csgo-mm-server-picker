@@ -1,11 +1,10 @@
 import { getInstance } from './app/crossplatform';
 
-(async function () {
-  async function run() {
+export async function run() {
+  async function _run() {
     const instance = await getInstance();
     instance.start();
   }
 
-  await run();
+  await _run();
 }
-)();
