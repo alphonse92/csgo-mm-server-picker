@@ -1,17 +1,14 @@
 /* eslint-disable no-console */
-import chalk from 'chalk';
-import figlet from 'figlet';
-
-import { PUBLIC_APP_NAME } from '../lib/constants';
-import { options } from './options';
+import args from 'args';
+import { OPTIONS } from './schema';
 
 export const init = async () => {
-  // console.log(
-  //   chalk.yellow(
-  //     figlet.textSync(PUBLIC_APP_NAME, { horizontalLayout: 'full' })
-  //   )
-  // );
+  Object.keys(OPTIONS).forEach((key) => {
+    const OPT = OPTIONS[key];
+    const { name, description, defaultValue, action } = OPT;
 
-
+    if (action) args.command(name, description, action);
+    else args.option(name, description, defaultValue);
+  });
   // process.exit(0)
 };
