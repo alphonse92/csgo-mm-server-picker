@@ -12,5 +12,4 @@ export const init = async () => {
   });
 
   args.parse(process.argv);
-  // process.exit(0)
 };

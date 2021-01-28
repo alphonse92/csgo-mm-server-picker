@@ -2,7 +2,7 @@ import {
   block,
   blockAll,
   allow,
-  allowAll
+  allowAll,
 } from './actions/firewall';
 import {
   listHosts,
