@@ -10,5 +10,7 @@ export const init = async () => {
     if (action) args.command(name, description, action);
     else args.option(name, description, defaultValue);
   });
+
+  args.parse(process.argv);
   // process.exit(0)
 };
