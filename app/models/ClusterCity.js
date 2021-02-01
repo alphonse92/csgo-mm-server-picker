@@ -13,7 +13,7 @@ export class ClusterCity {
     this.id = id;
     this.name = name || DEF_CITY_NAME;
     this.location = location;
-    this.addresses = addresses;
+    this.addresses = addresses.map(ip => ip.split(':')[0]);
     this.cityStatus = new ClusterCityStatus();
     this.regionId = regionId;
   }

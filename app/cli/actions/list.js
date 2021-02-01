@@ -1,4 +1,5 @@
 import _pick from 'lodash/pick';
+import _orderBy from 'lodash/orderBy';
 import { Firewall } from '../../models/Firewall';
 
 import { Servers } from '../../models/Servers';
@@ -16,10 +17,13 @@ export const listRegions = async () => {
   console.log(Object.keys(servers.clusters));
 };
 
-export const listBlockedHosts = async (_name, sub, opts) => {
-  console.log('Should list the blocked hosts', opts);
+export const listBlockedHosts = async () => {
   const firewall = new Firewall();
-  await firewall.list();
+  const hosts = await firewall.list();
+  const blockedHosts = hosts.map(({ id, name, regionId }) => ({ id, name, regionId }));
+  const orderedBlockedHosts = _orderBy(blockedHosts, ['regionId', 'name '], ['asc', 'asc']);
+
+  if (hosts.length) console.table(orderedBlockedHosts);
 };
 
 export const list = async (_name, sub, opts) => {

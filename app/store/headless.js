@@ -3,11 +3,8 @@ import _get from 'lodash/get';
 import _set from 'lodash/set';
 import { BaseMemoryStore } from './base';
 import { STORE_FILE_PATH } from '../lib/constants';
-
-const saveStoreOnDisk = (path, store) => {
-  return fs.promises.writeFile(path, JSON.stringify(store, null, 2))
-};
-
+// DArwin : /Users/a/Library/Preferences/csgomatchmackingpicker.settings.json
+const saveStoreOnDisk = (path, store) => fs.promises.writeFile(path, JSON.stringify(store, null, 2));
 export class HeadlessStore extends BaseMemoryStore {
   constructor(initialValues) {
     super(initialValues);
