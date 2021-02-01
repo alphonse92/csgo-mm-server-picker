@@ -1,8 +1,8 @@
 import _pick from 'lodash/pick';
+import { Firewall } from '../../models/Firewall';
 
 import { Servers } from '../../models/Servers';
 import { getServerList } from '../../services/servers';
-
 
 export const listHosts = async () => {
   const serverListResponse = await getServerList();
@@ -15,6 +15,19 @@ export const listRegions = async () => {
   const servers = new Servers(serverListResponse.data);
   console.log(Object.keys(servers.clusters));
 };
+
+export const listBlockedHosts = async (_name, sub, opts) => {
+  console.log('Should list the blocked hosts', opts);
+  const firewall = new Firewall();
+  await firewall.list();
+};
+
+export const list = async (_name, sub, opts) => {
+  if (opts.host) await listHosts(_name, sub, opts);
+  if (opts.region) await listRegions(_name, sub, opts);
+  if (opts.blockedHosts) await listBlockedHosts(_name, sub, opts);
+};
+
 
 export const describe = async (_name, sub, opts) => {
   const {

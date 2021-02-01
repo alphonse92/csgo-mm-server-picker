@@ -1,5 +1,6 @@
 import { APP_NAME } from '../constants';
 import { execBash, execMultiple } from '../terminal';
+
 // https://apple.stackexchange.com/questions/230209/how-do-i-drop-outgoing-packets-to-specific-host-port
 class Darwin {
   static async block(ipList) {

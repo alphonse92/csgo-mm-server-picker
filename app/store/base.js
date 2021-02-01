@@ -1,14 +1,16 @@
-export class BaseStore {
-  set() {
+import { STORE_FILE_PATH } from '../lib/constants';
+
+export class BaseMemoryStore {
+  async set() {
     throw 'This method (BaseStore.set) is not implemented yet';
   }
-  get() {
+  async get() {
     throw 'This method (BaseStore.get) is not implemented yet';
   }
-  getRoot() {
+  async getRoot() {
     throw 'This method (BaseStore.getRoot) is not implemented yet';
   }
-  getFilePath() {
-    throw 'This method (BaseStore.getFilePath) is not implemented yet';
+  async getFilePath() {
+    return STORE_FILE_PATH;
   }
 }

@@ -1,13 +1,12 @@
 import settings from 'electron-settings';
-import { app } from 'electron';
-
-import { BaseStore } from './base';
+import { BaseMemoryStore } from './base';
 import { STORE_FILENAME } from '../lib/constants';
 
-export class SettingsStore extends BaseStore {
+export class SettingsStore extends BaseMemoryStore {
   constructor(initialValues) {
     super(initialValues);
     this.store = settings;
+
     const conf = {
       atomicSave: true,
       fileName: STORE_FILENAME,
@@ -21,26 +20,22 @@ export class SettingsStore extends BaseStore {
     try {
       currentSettings = require(settings.file());
     } catch (e) {
-      currentSettings = { root: initialValues };
+      currentSettings = initialValues;
     }
 
     settings.setSync(currentSettings);
   }
 
-  get(key) {
+  async get(key) {
     return this.store.get(key);
   }
 
-  set(key, val) {
+  async set(key, val) {
     return this.store.set(key, val);
   }
 
-  getRoot() {
+  async getRoot() {
     return this.store.get('root');
-  }
-
-  getFilePath() {
-    return app.getPath('userData');
   }
 
 }

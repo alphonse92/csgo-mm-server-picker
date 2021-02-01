@@ -5,14 +5,17 @@ import {
   allowAll,
 } from './actions/firewall';
 import {
-  listHosts,
-  listRegions,
+  list,
   describe,
   listIp,
 } from './actions/list';
 import { ping } from './actions/ping';
 
 export const OPTIONS = {
+  BLOCKED: {
+    name: 'blocked-hosts',
+    description: 'Set the blocked-hosts',
+  },
   HOST: {
     name: 'host',
     description: 'Set name of the host',
@@ -23,15 +26,10 @@ export const OPTIONS = {
   },
 
   // Commands
-  LIST_HOST: {
-    name: 'list-host',
+  LIST: {
+    name: 'list',
     description: 'get a list with all hosts ids',
-    action: listHosts,
-  },
-  LIST_REGIONS: {
-    name: 'list-regions',
-    description: 'get a list with all regions ids',
-    action: listRegions,
+    action: list,
   },
   DESCRIBE: {
     name: 'describe',

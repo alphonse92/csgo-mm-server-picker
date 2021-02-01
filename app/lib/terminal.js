@@ -3,7 +3,6 @@ import { APP_NAME } from './constants';
 
 export const execBash = (command) => {
   console.log(command,command.length)
-  return Promise.resolve()
   return new Promise((resolve, reject) => {
     const options = { name: APP_NAME };
     const cb = (error, stdout, stderr) => {
