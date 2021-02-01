@@ -10,10 +10,7 @@ export const block = async (_name_, sub, opts) => {
   const { host, region } = getSelectedRegionsAndHost(opts);
   const hostsToBlock = await getHosts(host, region);
 
-  const result = await firewall.block(hostsToBlock);
-  if (!result) {
-    console.log('cant block the hosts');
-  }
+  await firewall.block(hostsToBlock);
   await listBlockedHosts();
 };
 
@@ -23,11 +20,8 @@ export const blockAll = async () => {
   const firewall = new Firewall();
   const hostsToBlock = Object
     .values(servers.hosts);
-  const result = await firewall.block(hostsToBlock);
-  if (!result) {
-    console.log('cant block the hosts');
-  }
 
+  await firewall.block(hostsToBlock);
   await listBlockedHosts();
 };
 
@@ -37,10 +31,8 @@ export const allow = async (_name_, sub, opts) => {
   const { host, region } = getSelectedRegionsAndHost(opts);
   const hostToAllow = await getHosts(host, region);
 
-  const result = await firewall.allow(hostToAllow);
-  if (!result) {
-    console.log('cant block the hosts');
-  }
+  await firewall.allow(hostToAllow);
+  await listBlockedHosts();
 };
 
 export const allowAll = async () => {
