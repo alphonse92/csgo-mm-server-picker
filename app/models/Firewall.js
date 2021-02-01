@@ -24,17 +24,17 @@ export class Firewall {
         allowedHostsMap[host.id] = host;
         ips = [...ips, ...host.addresses];
       });
-
-      // allow all the ips
-      // const blockedhostQuantity = await this.firewall.block(ips);
-      // console.log(blockedhostQuantity)
-
-
       // save the state
       const currentBlocks = await Store.get('root.servers.blocks');
-      const newState = _omit(currentBlocks, Object.keys(allowedHostsMap));
+      const stateOfBlockedIps = _omit(currentBlocks, Object.keys(allowedHostsMap));
 
-      await Store.set('root.servers.blocks', newState);
+      await Store.set('root.servers.blocks', stateOfBlockedIps);
+
+      const currentlyBlockedIps = Object
+        .values(stateOfBlockedIps)
+        .reduce((acc, blockedHost) => ([...acc, ...blockedHost.addresses]), []);
+
+      await this.firewall.block(currentlyBlockedIps);
 
       return true;
     } catch (e) {
@@ -58,16 +58,17 @@ export class Firewall {
         blockedHostMap[host.id] = host;
         ips = [...ips, ...host.addresses];
       });
-      // block all the ips
-      // const blockedhostQuantity = await this.firewall.block(ips);
-      // console.log(blockedhostQuantity)
 
-
-      // save the state
       const currentBlocks = await Store.get('root.servers.blocks');
-      const newState = { ...currentBlocks, ...blockedHostMap };
+      const stateOfBlockedIps = { ...currentBlocks, ...blockedHostMap };
 
-      await Store.set('root.servers.blocks', newState);
+      await Store.set('root.servers.blocks', stateOfBlockedIps);
+
+      const currentlyBlockedIps = Object
+        .values(stateOfBlockedIps)
+        .reduce((acc, blockedHost) => ([...acc, ...blockedHost.addresses]), []);
+
+      await this.firewall.block(currentlyBlockedIps);
 
       return true;
     } catch (e) {
@@ -81,8 +82,9 @@ export class Firewall {
    */
   async reset() {
     const Store = getStore();
-    // this.firewall.reset();
     await Store.set('root.servers.blocks', {});
+    await this.firewall.reset();
+    await this.firewall.reload();
   }
 
   /**

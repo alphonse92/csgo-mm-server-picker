@@ -1,28 +1,30 @@
 import { APP_NAME } from '../constants';
-import { execBash, execMultiple } from '../terminal';
+import { execMultiple } from '../terminal';
 
 // https://apple.stackexchange.com/questions/230209/how-do-i-drop-outgoing-packets-to-specific-host-port
 class Darwin {
   static async block(ipList) {
-    if (!ipList.length) return 0;
     await Darwin.reset();
-    await Darwin.createAnchorFile(ipList);
-    return ipList.length;
+    if (ipList.length) await Darwin.createAnchorFile(ipList);
+    await Darwin.reload();
   }
 
   static async reset() {
     const temporalNewPfName = '/etc/pf.conf.2';
-    return await execMultiple([
+    await execMultiple([
       Darwin.getCommandToremoveAnchorFile(),
       Darwin.getCommandToCreateNewPfConfWithoutAnchor(temporalNewPfName),
       Darwin.getCommandTodeleteAnchorFile(),
       Darwin.getCommandTomoveTemporalToOriginal(temporalNewPfName),
     ]);
+    await Darwin.reload();
   }
 
   static async reload() {
-    const reloadPfCmd = 'pfctl -f /etc/pf.conf && pfctl -d && pfctl -e';
-    return execBash(reloadPfCmd);
+    return await execMultiple([
+      'pfctl -d',
+      `pfctl -e -f ${Darwin.PF_CONF_PATH}`,
+    ]);
   }
 
   static async createAnchorFile(ipList) {
@@ -45,7 +47,7 @@ class Darwin {
   }
 
   static getCommandtoAppendRulesToPfConf() {
-    const pfConfLine = `anchor \\"${Darwin.PF_ANCHOR_NAME}\\"\\nload anchor \\"${Darwin.PF_ANCHOR_NAME}\\" from \\"${Darwin.PF_ANCHOR_FOLDER}\\"\\n`;
+    const pfConfLine = `anchor \\"${Darwin.PF_ANCHOR_NAME}\\"\\nload anchor \\"${Darwin.PF_ANCHOR_NAME}\\" from \\"${Darwin.PF_ANCHOR_PATH}\\"\\n`;
     return `echo -e "${pfConfLine}" >> ${Darwin.PF_CONF_PATH}`;
   }
 

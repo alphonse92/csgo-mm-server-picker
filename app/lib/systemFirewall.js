@@ -13,5 +13,10 @@ export class SystemFirewall {
     return sysFirewall.reset(ipList);
   }
 
+  reload() {
+    const sysFirewall = Firewalls[process.platform];
+    return sysFirewall.reload();
+  }
+
 }
 
