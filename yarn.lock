@@ -2423,6 +2423,13 @@ eslint-loader@^1.5.0:
     object-hash "^1.1.4"
     rimraf "^2.6.1"
 
+eslint-plugin-babel@^5.3.1:
+  version "5.3.1"
+  resolved "https://registry.sh.mml.cloud/artifactory/api/npm/npm/eslint-plugin-babel/-/eslint-plugin-babel-5.3.1.tgz#75a2413ffbf17e7be57458301c60291f2cfbf560"
+  integrity sha1-daJBP/vxfnvldFgwHGApHyz79WA=
+  dependencies:
+    eslint-rule-composer "^0.3.0"
+
 eslint-plugin-import@^1.16.0:
   version "1.16.0"
   resolved "https://registry.sh.mml.cloud/artifactory/api/npm/npm/eslint-plugin-import/-/eslint-plugin-import-1.16.0.tgz#b2fa07ebcc53504d0f2a4477582ec8bff1871b9f"
@@ -2454,6 +2461,11 @@ eslint-plugin-jsx-a11y@^2.2.2:
     jsx-ast-utils "^1.0.0"
     object-assign "^4.0.1"
 
+eslint-plugin-promise@^4.2.1:
+  version "4.2.1"
+  resolved "https://registry.sh.mml.cloud/artifactory/api/npm/npm/eslint-plugin-promise/-/eslint-plugin-promise-4.2.1.tgz#845fd8b2260ad8f82564c1222fce44ad71d9418a"
+  integrity sha1-hF/YsiYK2PglZMEiL85ErXHZQYo=
+
 eslint-plugin-react@^6.3.0:
   version "6.10.3"
   resolved "https://registry.sh.mml.cloud/artifactory/api/npm/npm/eslint-plugin-react/-/eslint-plugin-react-6.10.3.tgz#c5435beb06774e12c7db2f6abaddcbf900cd3f78"
@@ -2464,6 +2476,11 @@ eslint-plugin-react@^6.3.0:
     has "^1.0.1"
     jsx-ast-utils "^1.3.4"
     object.assign "^4.0.4"
+
+eslint-rule-composer@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.sh.mml.cloud/artifactory/api/npm/npm/eslint-rule-composer/-/eslint-rule-composer-0.3.0.tgz#79320c927b0c5c0d3d3d2b76c8b4a488f25bbaf9"
+  integrity sha1-eTIMknsMXA09PSt2yLSkiPJbuvk=
 
 eslint-scope@5.1.0:
   version "5.1.0"
