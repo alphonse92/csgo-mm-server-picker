@@ -9,7 +9,7 @@ export const execBash = command => new Promise(
       if (error) return reject(data);
       return resolve(data);
     };
-    console.log(command);
+    // console.log(command);
     sudo.exec(command, options, cb);
   }
 );
