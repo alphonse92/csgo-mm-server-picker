@@ -1,14 +1,8 @@
 import _omit from 'lodash/omit';
-
-// import { SystemFirewall } from '../lib/systemFirewall';
 import { getStore } from '../store';
 import { ClusterCity } from './ClusterCity';
 
 export class Firewall {
-  constructor() {
-    // this.firewall = new SystemFirewall();
-  }
-
   /**
   * Allow the outgoing trafic to a host ip
   * @param {Array<String>} addresses
@@ -29,12 +23,6 @@ export class Firewall {
       const stateOfBlockedIps = _omit(currentBlocks, Object.keys(allowedHostsMap));
 
       await Store.set('root.servers.blocks', stateOfBlockedIps);
-
-      // const currentlyBlockedIps = Object
-      //   .values(stateOfBlockedIps)
-      //   .reduce((acc, blockedHost) => ([...acc, ...blockedHost.addresses]), []);
-
-      // await this.firewall.block(currentlyBlockedIps);
 
       return true;
     } catch (e) {
@@ -64,12 +52,6 @@ export class Firewall {
 
       await Store.set('root.servers.blocks', stateOfBlockedIps);
 
-      // const currentlyBlockedIps = Object
-      //   .values(stateOfBlockedIps)
-      //   .reduce((acc, blockedHost) => ([...acc, ...blockedHost.addresses]), []);
-
-      // await this.firewall.block(currentlyBlockedIps);
-
       return true;
     } catch (e) {
       console.log(e);
@@ -83,8 +65,6 @@ export class Firewall {
   async reset() {
     const Store = getStore();
     await Store.set('root.servers.blocks', {});
-    // await this.firewall.reset();
-    // await this.firewall.reload();
   }
 
   /**

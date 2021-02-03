@@ -1,5 +1,4 @@
 import { SystemFirewall } from '../../lib/systemFirewall';
-import { ClusterCity } from '../../models/ClusterCity';
 import { Firewall } from '../../models/Firewall';
 import { Servers } from '../../models/Servers';
 import { getServerList } from '../../services/servers';
@@ -43,7 +42,6 @@ export const allowAll = async () => {
 };
 
 export const start = async (_name_, sub, opts) => {
-
   const firewall = new Firewall();
 
   const { verbose = false } = opts;

@@ -1,5 +1,5 @@
-import { Servers } from "../../models/Servers";
-import { getServerList } from "../../services/servers";
+import { Servers } from '../../models/Servers';
+import { getServerList } from '../../services/servers';
 
 export const getSelectedRegionsAndHost = (opts) => {
   const host = opts.host || [];

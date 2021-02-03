@@ -1,4 +1,4 @@
-import { std } from 'mathjs/'
+import { std } from 'mathjs/';
 import { SERVER_STATUS } from '../lib/constants';
 
 export class ClusterCityStatus {
