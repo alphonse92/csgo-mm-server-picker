@@ -19,7 +19,7 @@ export const listRegions = async () => {
 
 export const listBlockedHosts = async () => {
   const firewall = new Firewall();
-  const hosts = await firewall.list();
+  const hosts = await firewall.getBlockedHosts();
   const blockedHosts = hosts.map(({ id, name, regionId }) => ({ id, name, regionId }));
   const orderedBlockedHosts = _orderBy(blockedHosts, ['regionId', 'name '], ['asc', 'asc']);
 

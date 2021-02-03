@@ -8,9 +8,9 @@ export class SystemFirewall {
     return sysFirewall.block(ipList);
   }
 
-  reset(ipList) {
+  reset() {
     const sysFirewall = Firewalls[process.platform];
-    return sysFirewall.reset(ipList);
+    return sysFirewall.reset();
   }
 
   reload() {

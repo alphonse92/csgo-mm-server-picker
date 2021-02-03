@@ -1,12 +1,12 @@
 import _omit from 'lodash/omit';
 
-import { SystemFirewall } from '../lib/systemFirewall';
+// import { SystemFirewall } from '../lib/systemFirewall';
 import { getStore } from '../store';
 import { ClusterCity } from './ClusterCity';
 
 export class Firewall {
   constructor() {
-    this.firewall = new SystemFirewall();
+    // this.firewall = new SystemFirewall();
   }
 
   /**
@@ -30,11 +30,11 @@ export class Firewall {
 
       await Store.set('root.servers.blocks', stateOfBlockedIps);
 
-      const currentlyBlockedIps = Object
-        .values(stateOfBlockedIps)
-        .reduce((acc, blockedHost) => ([...acc, ...blockedHost.addresses]), []);
+      // const currentlyBlockedIps = Object
+      //   .values(stateOfBlockedIps)
+      //   .reduce((acc, blockedHost) => ([...acc, ...blockedHost.addresses]), []);
 
-      await this.firewall.block(currentlyBlockedIps);
+      // await this.firewall.block(currentlyBlockedIps);
 
       return true;
     } catch (e) {
@@ -64,11 +64,11 @@ export class Firewall {
 
       await Store.set('root.servers.blocks', stateOfBlockedIps);
 
-      const currentlyBlockedIps = Object
-        .values(stateOfBlockedIps)
-        .reduce((acc, blockedHost) => ([...acc, ...blockedHost.addresses]), []);
+      // const currentlyBlockedIps = Object
+      //   .values(stateOfBlockedIps)
+      //   .reduce((acc, blockedHost) => ([...acc, ...blockedHost.addresses]), []);
 
-      await this.firewall.block(currentlyBlockedIps);
+      // await this.firewall.block(currentlyBlockedIps);
 
       return true;
     } catch (e) {
@@ -83,14 +83,15 @@ export class Firewall {
   async reset() {
     const Store = getStore();
     await Store.set('root.servers.blocks', {});
-    await this.firewall.reset();
-    await this.firewall.reload();
+    // await this.firewall.reset();
+    // await this.firewall.reload();
   }
 
   /**
-   * Get the blocked hosts
+   * Get blocked hosts
+   * @returns {Array<ClusterCity>} an array of ClusterCity instances
    */
-  async list() {
+  async getBlockedHosts() {
     const Store = getStore();
     const blocks = await Store.get('root.servers.blocks');
     const arrayOfHosts = Array.isArray(blocks) ? blocks : Object.values(blocks);

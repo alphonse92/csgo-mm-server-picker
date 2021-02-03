@@ -3,6 +3,7 @@ import {
   blockAll,
   allow,
   allowAll,
+  start,
 } from './actions/firewall';
 import {
   list,
@@ -24,8 +25,17 @@ export const OPTIONS = {
     name: 'region',
     description: 'Set name of the region',
   },
+  VERBOSE: {
+    name: 'verbose',
+    description: 'Print util information',
+  },
 
   // Commands
+  START: {
+    name: 'start',
+    description: 'Start the firewall',
+    action: start,
+  },
   LIST: {
     name: 'list',
     description: 'get a list with all hosts ids',
