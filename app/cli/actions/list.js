@@ -1,14 +1,28 @@
 import _pick from 'lodash/pick';
 import _orderBy from 'lodash/orderBy';
+import _omit from 'lodash/omit';
 import { Firewall } from '../../models/Firewall';
 
 import { Servers } from '../../models/Servers';
 import { getServerList } from '../../services/servers';
 
-export const listHosts = async () => {
+const getTableDataSetFromHosts = hosts => _orderBy(hosts.map(({ id, name, regionId }) => ({ id, name, regionId })), ['regionId', 'name '], ['asc', 'asc']);
+const getBlockedHostsFromFirewall = async () => {
+  const firewall = new Firewall();
+  const hosts = await firewall.getBlockedHosts();
+  return hosts;
+};
+
+export const getServersData = async () => {
   const serverListResponse = await getServerList();
   const servers = new Servers(serverListResponse.data);
-  console.log(Object.keys(servers.hosts));
+  return servers;
+};
+
+export const listHosts = async () => {
+  const servers = await getServersData();
+  const dataset = getTableDataSetFromHosts(Object.values(servers.hosts));
+  console.table(dataset);
 };
 
 export const listRegions = async () => {
@@ -17,19 +31,31 @@ export const listRegions = async () => {
   console.log(Object.keys(servers.clusters));
 };
 
-export const listBlockedHosts = async () => {
-  const firewall = new Firewall();
-  const hosts = await firewall.getBlockedHosts();
-  const blockedHosts = hosts.map(({ id, name, regionId }) => ({ id, name, regionId }));
-  const orderedBlockedHosts = _orderBy(blockedHosts, ['regionId', 'name '], ['asc', 'asc']);
+export const _listBlockedHosts = async () => {
+  const hosts = await getBlockedHostsFromFirewall();
+  const blockedHosts = getTableDataSetFromHosts(hosts);
+  return blockedHosts;
+};
 
-  if (hosts.length) console.table(orderedBlockedHosts);
+export const listBlockedHosts = async () => {
+  const blockedHosts = await _listBlockedHosts();
+  if (blockedHosts.length) console.table(blockedHosts);
+};
+
+export const listAvailableHosts = async () => {
+  const { hosts } = await getServersData();
+  const blockedHosts = await getBlockedHostsFromFirewall();
+  const blockedHostsIds = blockedHosts.map(({ id }) => id);
+  const availableHostsMap = _omit(hosts, blockedHostsIds);
+  const availableHosts = getTableDataSetFromHosts(Object.values(availableHostsMap));
+  console.table(availableHosts);
 };
 
 export const list = async (_name, sub, opts) => {
   if (opts.host) await listHosts(_name, sub, opts);
-  if (opts.region) await listRegions(_name, sub, opts);
-  if (opts.blockedHosts) await listBlockedHosts(_name, sub, opts);
+  else if (opts.region) await listRegions(_name, sub, opts);
+  else if (opts.blockedHosts) await listBlockedHosts(_name, sub, opts);
+  else await listAvailableHosts(_name, sub, opts);
 };
 
 
